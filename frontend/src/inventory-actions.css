@@ -1,0 +1,143 @@
+.selection-help {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 12px;
+}
+
+.bulk-heading,
+.bulk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bulk-heading {
+  margin-right: auto;
+}
+
+.bulk-field span,
+.bulk-heading span {
+  color: #b6c8bc;
+  font-size: 10px;
+}
+
+.bulk-field select,
+.bulk-field input {
+  height: 32px;
+  border: 0;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.amount-field > div {
+  display: flex;
+  align-items: center;
+  background: white;
+}
+
+.amount-field input {
+  width: 62px;
+}
+
+.amount-field b {
+  color: var(--ink);
+  padding-right: 8px;
+  font: 11px "DM Mono", monospace;
+}
+
+.quantity-editor {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quantity-stepper > button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 28px;
+  border: 1px solid transparent;
+}
+
+.quantity-stepper > button:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.quantity-stepper > button:disabled {
+  color: #aab5ad;
+  cursor: not-allowed;
+}
+
+.quantity-stepper .quantity-input {
+  width: 52px;
+  text-align: center;
+  border: 0;
+  background: white;
+}
+
+.quantity-input {
+  appearance: textfield;
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.quantity-decrease {
+  background: var(--pale-coral);
+  color: var(--coral);
+}
+
+.quantity-increase {
+  background: var(--pale-green);
+  color: var(--green);
+}
+
+.quantity-save {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--green);
+}
+
+.quantity-save:hover:not(:disabled) {
+  background: var(--pale-green);
+}
+
+.quantity-save:disabled {
+  color: #aab5ad;
+  cursor: not-allowed;
+}
+
+.bulk-bar .primary-button,
+.bulk-bar .clear-button {
+  align-self: flex-end;
+}
+
+@media (max-width: 640px) {
+  .bulk-heading,
+  .bulk-field {
+    flex-basis: 100%;
+  }
+
+  .bulk-field select,
+  .amount-field > div {
+    width: 100%;
+  }
+
+  .bulk-bar .primary-button,
+  .bulk-bar .clear-button {
+    flex: 1;
+  }
+}

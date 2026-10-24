@@ -1,0 +1,12 @@
+.supplier-section {
+  margin-top: 14px;
+}
+
+.supplier-bars {
+  display: grid;
+  gap: 15px;
+}
+
+.supplier-fill {
+  background: #507b91;
+}
