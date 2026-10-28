@@ -6,7 +6,7 @@ from sqlalchemy.sql.functions import count
 from sqlalchemy.orm import Session
 
 from backend.models import Inventory
-from backend.schemas.inventory import BulkPriceUpdate, QuantityUpdate
+from backend.schemas.inventory import BulkPriceUpdate, PriceUpdate, QuantityUpdate
 
 StockStatus = Literal["", "in-stock", "low-stock", "out-of-stock"]
 SortField = Literal["name", "price", "stock", "value"]
@@ -68,6 +68,16 @@ def list_inventory(
     )
     items = database.scalars(query.offset((page - 1) * page_size).limit(page_size)).all()
     total = database.scalar(select(count()).select_from(Inventory).where(*filters)) or 0
+    return {
+        "items": items,
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        **inventory_options(database),
+    }
+
+
+def inventory_options(database: Session) -> dict:
     categories = database.scalars(
         select(Inventory.category).distinct().order_by(func.lower(Inventory.category))
     ).all()
@@ -75,24 +85,38 @@ def list_inventory(
         select(Inventory.supplier).distinct().order_by(func.lower(Inventory.supplier))
     ).all()
     return {
-        "items": items,
-        "total": total,
-        "page": page,
-        "page_size": page_size,
         "categories": categories,
         "suppliers": suppliers,
     }
 
 
 def update_quantity(
-    database: Session, item_id: int, update: QuantityUpdate
+    database: Session, item_id: int, update: QuantityUpdate, *, commit: bool = True
 ) -> Inventory:
     item = database.get(Inventory, item_id)
     if item is None:
         raise HTTPException(status_code=404, detail="Inventory item not found")
     item.stock_quantity = update.stock_quantity
-    database.commit()
-    database.refresh(item)
+    if commit:
+        database.commit()
+        database.refresh(item)
+    else:
+        database.flush()
+    return item
+
+
+def update_price(
+    database: Session, item_id: int, update: PriceUpdate, *, commit: bool = True,
+) -> Inventory:
+    item = database.get(Inventory, item_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail="Inventory item not found")
+    item.price = update.price
+    if commit:
+        database.commit()
+        database.refresh(item)
+    else:
+        database.flush()
     return item
 
 

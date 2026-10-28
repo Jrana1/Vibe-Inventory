@@ -1,0 +1,6 @@
+-r requirements.txt
+mlflow==3.5.1
+python-dotenv==1.1.1
+sqlglot==30.24.0
+langsmith==0.14.12
+pypdf==6.1.1

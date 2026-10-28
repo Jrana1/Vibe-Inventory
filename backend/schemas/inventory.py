@@ -1,6 +1,8 @@
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from decimal import Decimal
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class InventoryItemResponse(BaseModel):
@@ -25,6 +27,20 @@ class InventoryListResponse(BaseModel):
 
 class QuantityUpdate(BaseModel):
     stock_quantity: int = Field(ge=0)
+
+
+class PriceUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+
+    price: float = Field(ge=0, le=1_000_000, strict=True)
+
+    @field_validator("price")
+    @classmethod
+    def cents_only(cls, value: float) -> float:
+        amount = Decimal(str(value))
+        if amount != amount.quantize(Decimal("0.01")):
+            raise ValueError("Price must have at most two decimal places")
+        return value
 
 
 class BulkPriceUpdate(BaseModel):
