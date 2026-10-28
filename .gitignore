@@ -11,3 +11,9 @@ frontend/vite.config.d.ts
 .env.*
 !.env.example
 *.zip
+mlflow.db*
+mlartifacts/
+mlruns/
+vibe_inventory.db-journal
+vibe_inventory.db-wal
+vibe_inventory.db-shm

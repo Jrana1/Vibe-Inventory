@@ -1,17 +1,22 @@
 {
-  "name": "vibeworx-inventory",
+  "name": "vibe-inventory",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:stream": "node --experimental-strip-types --test tests/agent-stream.test.mjs",
+    "test:starters": "node --experimental-strip-types --test tests/starter-questions.test.mjs",
+    "test:proposals": "node --experimental-strip-types --test tests/proposal-values.test.mjs"
   },
   "dependencies": {
     "lucide-react": "1.55.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "19.3.0",
